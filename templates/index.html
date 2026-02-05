@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erg Pace Calculator - Professional Rowing Workout Planner</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="static/style.css">
+<base target="_blank">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-water"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>ErgCalc</h1>
+                    <span>Professional Pace Planning</span>
+                </div>
+            </div>
+            <div class="navbar-actions">
+                <button class="btn-icon" title="Save Workout">
+                    <i class="fas fa-bookmark"></i>
+                </button>
+                <button class="btn-icon" title="Share">
+                    <i class="fas fa-share-nodes"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <img src="https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/CA27/production/_130115715_gettyimages-1499000678-1.jpg" alt="Rowing" class="hero-bg-image">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-bolt"></i>
+                    <span>Concept2 Formula Based</span>
+                </div>
+                <h1 class="hero-title">
+                    Plan Every Stroke.<br>
+                    <span class="gradient-text">Achieve Every Goal.</span>
+                </h1>
+                <p class="hero-description">
+                    Precision workout calculator for rowers. Calculate splits, watts, and distances 
+                    with official Concept2 formulas. Perfect for 2k tests, steady state, and interval training.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Accurate Calculations</h3>
+                            <p>Official Concept2 formulas</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Detailed Analysis</h3>
+                            <p>Segment-by-segment breakdown</p>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-sliders"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Flexible Planning</h3>
+                            <p>Distance & time-based workouts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container main-content">
+        <!-- Mode Selector -->
+        <section class="mode-selector">
+            <h2 class="section-title">Choose Your Workout Type</h2>
+            
+            <div class="mode-cards">
+                <div class="mode-card active" id="distanceModeTab">
+                    <div class="mode-card-icon">
+                        <i class="fas fa-ruler-horizontal"></i>
+                    </div>
+                    <h3>Distance-Based</h3>
+                    <p>Perfect for 2k, 5k, 6k tests and race prep</p>
+                    <ul class="mode-features">
+                        <li><i class="fas fa-check"></i> Set target distance</li>
+                        <li><i class="fas fa-check"></i> Custom segments</li>
+                        <li><i class="fas fa-check"></i> Plan splits precisely</li>
+                    </ul>
+                    <div class="mode-card-badge">Most Popular</div>
+                </div>
+
+                <div class="mode-card" id="timeModeTab">
+                    <div class="mode-card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Time-Based</h3>
+                    <p>Ideal for steady state and interval training</p>
+                    <ul class="mode-features">
+                        <li><i class="fas fa-check"></i> Set workout duration</li>
+                        <li><i class="fas fa-check"></i> Interval segments</li>
+                        <li><i class="fas fa-check"></i> Include rest periods</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Distance Calculator -->
+        <div id="distanceCalculator" class="calculator-container active">
+            <div class="calculator-card">
+                <div class="calculator-header">
+                    <div class="calculator-header-content">
+                        <div class="calculator-icon">
+                            <i class="fas fa-ruler-horizontal"></i>
+                        </div>
+                        <div>
+                            <h2>Distance Workout Calculator</h2>
+                            <p>Plan your race or test piece</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-body">
+                    <!-- Workout Parameters -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-sliders"></i>
+                            Workout Parameters
+                        </h3>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Total Distance</label>
+                                <select id="total_meters" class="form-select">
+                                    <option value="2000">2000m (2k Test)</option>
+                                    <option value="5000">5000m</option>
+                                    <option value="6000">6000m</option>
+                                    <option value="10000">10000m</option>
+                                    <option value="21097">Half Marathon (21,097m)</option>
+                                    <option value="custom">Custom Distance</option>
+                                </select>
+                                <div id="custom_meters_container" class="custom-input-container" style="display: none;">
+                                    <input type="number" id="custom_meters" class="form-control" placeholder="Enter meters" min="100">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label">Segment Length</label>
+                                <select id="segment_length" class="form-select">
+                                    <option value="500">500m (Standard)</option>
+                                    <option value="250">250m</option>
+                                    <option value="400">400m</option>
+                                    <option value="1000">1000m</option>
+                                    <option value="custom_segment">Custom Length</option>
+                                </select>
+                                <div id="custom_segment_container" class="custom-input-container" style="display: none;">
+                                    <input type="number" id="custom_segment" class="form-control" placeholder="Enter meters" min="50">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Target Splits -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Target Splits
+                        </h3>
+                        
+                        <div id="distanceSegmentsInfo" class="info-banner">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="distanceSegmentsInfoText">Set distance and segment length above</span>
+                        </div>
+                        
+                        <div id="distanceSplitsContainer" class="splits-grid">
+                            <!-- Split inputs will appear here -->
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="calculator-actions">
+                        <button id="quickFillDistance" class="btn btn-outline">
+                            <i class="fas fa-wand-magic-sparkles"></i>
+                            Quick Fill
+                        </button>
+                        <button id="calculateDistanceBtn" class="btn btn-primary">
+                            <i class="fas fa-calculator"></i>
+                            Calculate Workout
+                        </button>
+                        <button id="resetDistanceBtn" class="btn btn-secondary">
+                            <i class="fas fa-rotate-right"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time Calculator -->
+        <div id="timeCalculator" class="calculator-container">
+            <div class="calculator-card">
+                <div class="calculator-header">
+                    <div class="calculator-header-content">
+                        <div class="calculator-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h2>Time Workout Calculator</h2>
+                            <p>Build your interval or steady state session</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calculator-body">
+                    <!-- Workout Structure -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-layer-group"></i>
+                            Workout Structure
+                        </h3>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Workout Type</label>
+                                <select id="workout_type" class="form-select">
+                                    <option value="single_time">Single Continuous Piece</option>
+                                    <option value="equal_segments">Equal Segments</option>
+                                    <option value="custom_segments">Custom Segments</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label">Quick Templates</label>
+                                <select id="common_workouts" class="form-select">
+                                    <option value="">Select a template...</option>
+                                    <option value="30r20">30' @ Rate 20</option>
+                                    <option value="hour_power">Hour of Power</option>
+                                    <option value="4x8">4 × 8' / 2' rest</option>
+                                    <option value="pyramid">Pyramid Intervals</option>
+                                    <option value="10x5">10 × 5' / 2' rest</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Single Time Container -->
+                    <div id="singleTimeContainer" class="form-section" style="display: none;">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-play"></i>
+                            Single Piece Configuration
+                        </h3>
+                        
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-6">
+                                <label class="form-label">Duration</label>
+                                <div class="time-input-group">
+                                    <div class="time-input-item">
+                                        <input type="number" id="single_minutes" class="form-control" value="20" min="1">
+                                        <span class="time-label">min</span>
+                                    </div>
+                                    <span class="time-separator">:</span>
+                                    <div class="time-input-item">
+                                        <input type="number" id="single_seconds" class="form-control" value="0" min="0" max="59">
+                                        <span class="time-label">sec</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label">Target Split</label>
+                                <div class="split-input-wrapper">
+                                    <input type="text" id="single_time_split" class="form-control split-input" value="2:00.0" placeholder="m:ss.s">
+                                    <span class="split-suffix">/500m</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Equal Segments Container -->
+                    <div id="equalSegmentsContainer" class="form-section" style="display: none;">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-clone"></i>
+                            Equal Segments Configuration
+                        </h3>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Segment Duration</label>
+                                <div class="time-input-group">
+                                    <div class="time-input-item">
+                                        <input type="number" id="segment_minutes" class="form-control" value="5" min="1">
+                                        <span class="time-label">min</span>
+                                    </div>
+                                    <span class="time-separator">:</span>
+                                    <div class="time-input-item">
+                                        <input type="number" id="segment_seconds" class="form-control" value="0" min="0" max="59">
+                                        <span class="time-label">sec</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label class="form-label">Number of Segments</label>
+                                <input type="number" id="num_segments" class="form-control" value="4" min="1">
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label class="form-label">Rest Between</label>
+                                <div class="time-input-group">
+                                    <div class="time-input-item">
+                                        <input type="number" id="rest_minutes" class="form-control" value="2" min="0">
+                                        <span class="time-label">min</span>
+                                    </div>
+                                    <span class="time-separator">:</span>
+                                    <div class="time-input-item">
+                                        <input type="number" id="rest_seconds" class="form-control" value="0" min="0" max="59">
+                                        <span class="time-label">sec</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12">
+                                <label class="form-label">Target Split (All Segments)</label>
+                                <div class="split-input-wrapper">
+                                    <input type="text" id="equal_segments_split" class="form-control split-input" value="2:00.0" placeholder="m:ss.s">
+                                    <span class="split-suffix">/500m</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Custom Segments Container -->
+                    <div id="customSegmentsContainer" class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-list-check"></i>
+                            Custom Segments
+                        </h3>
+                        <p class="form-section-description">Build your interval workout with custom durations and rest periods</p>
+                        
+                        <div id="customSegmentsList" class="custom-segments-list">
+                            <!-- Initial segment -->
+                            <div class="custom-segment">
+                                <div class="custom-segment-header">
+                                    <div class="segment-number">
+                                        <span>01</span>
+                                    </div>
+                                    <h4 class="segment-title">Segment 1</h4>
+                                    <button class="btn-delete-segment" onclick="removeSegment(this)" title="Remove Segment">
+                                        <i class="fas fa-xmark"></i>
+                                    </button>
+                                </div>
+                                
+                                <div class="custom-segment-body">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label-sm">Duration</label>
+                                            <div class="time-input-group">
+                                                <div class="time-input-item">
+                                                    <input type="number" class="form-control segment-minutes" value="10" min="1">
+                                                    <span class="time-label">min</span>
+                                                </div>
+                                                <span class="time-separator">:</span>
+                                                <div class="time-input-item">
+                                                    <input type="number" class="form-control segment-seconds" value="0" min="0" max="59">
+                                                    <span class="time-label">sec</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                            <label class="form-label-sm">Rest After</label>
+                                            <div class="time-input-group">
+                                                <div class="time-input-item">
+                                                    <input type="number" class="form-control rest-minutes" value="2" min="0">
+                                                    <span class="time-label">min</span>
+                                                </div>
+                                                <span class="time-separator">:</span>
+                                                <div class="time-input-item">
+                                                    <input type="number" class="form-control rest-seconds" value="0" min="0" max="59">
+                                                    <span class="time-label">sec</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                            <label class="form-label-sm">Target Split</label>
+                                            <div class="split-input-wrapper">
+                                                <input type="text" class="form-control split-input segment-split" value="2:00.0" placeholder="m:ss.s">
+                                                <span class="split-suffix">/500m</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="segment-actions">
+                            <button id="addSegmentBtn" class="btn btn-outline">
+                                <i class="fas fa-plus"></i>
+                                Add Segment
+                            </button>
+                            <button id="quickFillCustom" class="btn btn-outline">
+                                <i class="fas fa-chart-line"></i>
+                                Negative Split Fill
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="calculator-actions">
+                        <button id="calculateTimeBtn" class="btn btn-primary">
+                            <i class="fas fa-calculator"></i>
+                            Calculate Workout
+                        </button>
+                        <button id="resetTimeBtn" class="btn btn-secondary">
+                            <i class="fas fa-rotate-right"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="results-container">
+            <div class="results-card">
+                <div class="results-header">
+                    <div class="results-header-icon">
+                        <i class="fas fa-chart-mixed"></i>
+                    </div>
+                    <div>
+                        <h2>Workout Results</h2>
+                        <p>Your complete workout breakdown</p>
+                    </div>
+                </div>
+
+                <div class="results-body">
+                    <!-- Summary Stats -->
+                    <div class="results-summary">
+                        <div class="summary-card">
+                            <div class="summary-label">Workout Type</div>
+                            <div class="summary-value" id="resultType">--</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-label">Total Distance</div>
+                            <div class="summary-value" id="resultTotalDistance">--</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-label">Total Time</div>
+                            <div class="summary-value" id="resultTotalTime">--</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-label">Segments</div>
+                            <div class="summary-value" id="resultSegmentsCount">--</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-label">Avg Split</div>
+                            <div class="summary-value accent" id="resultAvgSplit">--</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-label">Avg Watts</div>
+                            <div class="summary-value accent" id="resultAvgWatts">--</div>
+                        </div>
+                    </div>
+
+                    <!-- Pace Progression -->
+                    <div class="results-section">
+                        <h3 class="results-section-title">
+                            <i class="fas fa-chart-line"></i>
+                            Pace Progression
+                        </h3>
+                        <div id="paceBars" class="pace-bars">
+                            <!-- Pace bars will appear here -->
+                        </div>
+                    </div>
+
+                    <!-- Segment Breakdown -->
+                    <div class="results-section">
+                        <h3 class="results-section-title">
+                            <i class="fas fa-list-ol"></i>
+                            Segment Breakdown
+                        </h3>
+                        <div id="segmentBreakdown" class="segment-breakdown">
+                            <!-- Segment details will appear here -->
+                        </div>
+                    </div>
+
+                    <!-- Additional Metrics -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="metric-card">
+                                <h4 class="metric-card-title">
+                                    <i class="fas fa-bolt"></i>
+                                    Watts per Segment
+                                </h4>
+                                <div id="wattsPerSegment" class="metric-content">
+                                    <!-- Watts breakdown -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="metric-card">
+                                <h4 class="metric-card-title">
+                                    <i class="fas fa-trophy"></i>
+                                    Equivalent Scores
+                                </h4>
+                                <div id="equivalentScores" class="metric-content">
+                                    <!-- Equivalent scores -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formula Note -->
+                    <div class="formula-note">
+                        <i class="fas fa-flask"></i>
+                        <div>
+                            <strong>Calculation Formulas:</strong>
+                            <span>Distance = (Time / Split) × 500 | Watts = 2.80 / (Split/500)³</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>ErgCalc</h3>
+                    <p>Professional rowing workout calculator built with precision and care for athletes.</p>
+                </div>
+                
+                <div class="footer-tips">
+                    <h4>Pro Tips</h4>
+                    <div class="tip-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <p><strong>2k Strategy:</strong> Start 2-3 seconds slower than goal pace for the first 500m</p>
+                    </div>
+                    <div class="tip-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <p><strong>Steady State:</strong> Keep splits within 1-2 seconds for optimal aerobic training</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rowing Image Banner -->
+            <div class="footer-image-banner">
+                <div class="footer-image-container">
+                    <img src="https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/CA27/production/_130115715_gettyimages-1499000678-1.jpg" alt="Rowing Competition" class="footer-image">
+                    <div class="footer-image-overlay">
+                        <div class="footer-image-caption">
+                            <i class="fas fa-trophy"></i>
+                            <span>World Class Training</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 ErgCalc. Based on official Concept2 formulas. Built for rowers, by rowers.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/script.js"></script>
+</body>
+</html>
