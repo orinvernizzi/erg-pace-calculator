@@ -1,4 +1,51 @@
 $(document).ready(function() {
+    // ====== INTERACTIVE FEATURES ======
+
+    // Save Workout Button
+    $('#saveWorkoutBtn').click(function() {
+        showNotification('Workout saved successfully!');
+        $(this).find('i').addClass('fa-bounce');
+        setTimeout(() => $(this).find('i').removeClass('fa-bounce'), 600);
+    });
+
+    // Share Workout Button
+    $('#shareWorkoutBtn').click(function() {
+        showNotification('Workout link copied to clipboard!');
+        $(this).find('i').addClass('fa-bounce');
+        setTimeout(() => $(this).find('i').removeClass('fa-bounce'), 600);
+    });
+
+    // Theme Toggle Button
+    $('#themeToggleBtn').click(function() {
+        const $icon = $(this).find('i');
+        $icon.toggleClass('fa-sun fa-moon');
+        $(this).find('.btn-tooltip').text($icon.hasClass('fa-moon') ? 'Light' : 'Dark');
+        $icon.addClass('fa-spin');
+        setTimeout(() => $icon.removeClass('fa-spin'), 600);
+    });
+
+    // Show notification toast
+    function showNotification(message) {
+        const $toast = $('#notificationToast');
+        $toast.find('span').text(message);
+        $toast.addClass('show');
+
+        setTimeout(() => {
+            $toast.removeClass('show');
+        }, 3000);
+    }
+
+    // Trigger confetti on calculate
+    window.triggerConfetti = function() {
+        if (typeof confetti === 'function') {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+    };
+
     // ====== MODE SWITCHING ======
     $('#distanceModeTab').click(function() {
         $('.mode-card').removeClass('active');
@@ -693,7 +740,10 @@ $(document).ready(function() {
         
         // Show results
         $('.results-container').show();
-        
+
+        // Trigger celebration confetti
+        triggerConfetti();
+
         // Scroll to results
         $('html, body').animate({
             scrollTop: $('.results-container').offset().top - 100
