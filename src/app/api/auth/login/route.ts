@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { createSession, publicUser } from "@/lib/auth";
 import { asRole, type SessionUser } from "@/lib/auth-token";
-import { jsonError } from "@/lib/http";
+import { fromUnknownError, jsonError } from "@/lib/http";
 
 export async function POST(request: Request) {
   try {

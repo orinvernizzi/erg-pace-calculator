@@ -14,7 +14,7 @@ export function fromAuthError(error: unknown) {
 export function fromUnknownError(error: unknown) {
   const text = error instanceof Error ? error.message : String(error);
   if (text.includes("Can't reach database") || text.includes("P1001")) {
-    return jsonError("Database is not running. Start Postgres or point DATABASE_URL at Neon.", 503);
+    return jsonError("Database is unavailable. Check DATABASE_URL on Vercel (Neon).", 503);
   }
   console.error(error);
   return jsonError("Something went wrong.", 500);

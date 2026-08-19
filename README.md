@@ -66,16 +66,11 @@ If Docker Desktop is not installed, use Neon for local development too: put the 
 
 ## Vercel (web)
 
-This cannot create your Vercel or Neon account from here. Once both exist:
+The public app is the Vercel URL, not localhost. After this repo is on GitHub and imported in Vercel:
 
-1. Push this repo to GitHub (`erg-pace-calculator`).
-2. [vercel.com](https://vercel.com) → **Add New** → **Project** → import that repo. Root Directory = repo root (not `mobile/`).
-3. Environment variables:
-   - `DATABASE_URL` — Neon pooled URL
-   - `DIRECT_URL` — Neon direct URL
-   - `AUTH_SECRET` — long random string (same value as local if you share the DB)
-4. Deploy. `vercel.json` runs `prisma generate`, `prisma migrate deploy`, then `next build`.
-5. Public URL is `https://….vercel.app`. Create an account there. Save a 2k. It should show in Logbook.
+1. Env on Vercel: `DATABASE_URL` (Neon pooled), `DIRECT_URL` (Neon direct), `AUTH_SECRET` (long random string).
+2. Deploy. `vercel.json` runs `prisma generate`, `prisma migrate deploy`, then `next build`.
+3. Open `https://….vercel.app` and create an account there.
 
 ## iOS
 

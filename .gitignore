@@ -6,3 +6,4 @@ node_modules/
 mobile/node_modules/
 mobile/.expo/
 mobile/.env
+.pg-data/
