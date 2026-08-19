@@ -15,11 +15,10 @@ cd C:\Users\nicolas.invernizzi\Documents\GitHub\erg-pace-calculator
 docker compose up -d
 ```
 
-Copy `.env.example` to `.env`. For local Docker both URLs can be the same:
+Copy `.env.example` to `.env`:
 
 ```
-DATABASE_URL="postgresql://ergcalc:ergcalc@localhost:5432/ergcalc"
-DIRECT_URL="postgresql://ergcalc:ergcalc@localhost:5432/ergcalc"
+DATABASE_URL="postgresql://USER:PASSWORD@HOST/neondb?sslmode=require"
 AUTH_SECRET="a-long-random-string"
 ```
 
@@ -54,9 +53,8 @@ Verify: open `/logbook` in a private window (no cookie) → redirect to `/signin
 SQLite (`file:./dev.db`) will not run on Vercel. Create a Neon project, then:
 
 1. Neon → your project → **Connect**.
-2. Copy the **pooled** connection string into `DATABASE_URL`. Add `?sslmode=require` if it is not already there.
-3. Copy the **direct** (non-pooled) string into `DIRECT_URL`, also with `sslmode=require`. Prisma migrations use `DIRECT_URL`.
-4. Generate `AUTH_SECRET` (long random string). Put the three values in local `.env` while testing against Neon, and in Vercel later.
+2. Copy the connection string into `DATABASE_URL`. Add `?sslmode=require` if it is not already there.
+3. Generate `AUTH_SECRET` (long random string). Put both values in Vercel env vars.
 
 ```powershell
 npx prisma migrate deploy
@@ -68,7 +66,7 @@ If Docker Desktop is not installed, use Neon for local development too: put the 
 
 The public app is the Vercel URL, not localhost. After this repo is on GitHub and imported in Vercel:
 
-1. Env on Vercel: `DATABASE_URL` (Neon pooled), `DIRECT_URL` (Neon direct), `AUTH_SECRET` (long random string).
+1. Env on Vercel: `DATABASE_URL` (Neon connection string) and `AUTH_SECRET` (long random string). Enable them for **Production** and **Build**. You can delete `DIRECT_URL` if it exists and is empty.
 2. Deploy. `vercel.json` runs `prisma generate`, `prisma migrate deploy`, then `next build`.
 3. Open `https://….vercel.app` and create an account there.
 

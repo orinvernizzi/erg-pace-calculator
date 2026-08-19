@@ -1,4 +1,4 @@
 {
-  "buildCommand": "sh scripts/vercel-build.sh",
+  "buildCommand": "test -n \"$DATABASE_URL\" || { echo 'Set DATABASE_URL in Vercel → Settings → Environment Variables (Production, available at Build).'; exit 1; }; npx prisma generate && npx prisma migrate deploy && next build",
   "framework": "nextjs"
 }
