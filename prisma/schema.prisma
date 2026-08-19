@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  activeRole   String   @default("rower")
+  createdAt    DateTime @default(now())
+
+  profile          Profile?
+  workouts         Workout[]
+  memberships      Membership[]
+  coachLinks       CoachAthleteLink[] @relation("CoachLinks")
+  athleteLinks     CoachAthleteLink[] @relation("AthleteLinks")
+  ownedOrgs        Organization[]     @relation("OrgOwner")
+  coachingPlans    TrainingPlan[]     @relation("PlanCoach")
+}
+
+model Profile {
+  id              String  @id @default(cuid())
+  userId          String  @unique
+  user            User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weightKg        Float?
+  twoKSplitSeconds Float?
+  club            String?
+}
+
+model Workout {
+  id                 String   @id @default(cuid())
+  userId             String
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sport              String
+  source             String
+  performedAt        DateTime
+  kind               String
+  totalMeters        Float
+  totalWorkSeconds   Float
+  totalRestSeconds   Float    @default(0)
+  avgSplitSeconds    Float
+  avgWatts           Float
+  notes              String?
+  dragFactor         Float?
+  planItemId         String?
+  planItem           PlanItem? @relation(fields: [planItemId], references: [id])
+  createdAt          DateTime @default(now())
+
+  splits   WorkoutSplit[]
+  insights WorkoutInsight[]
+}
+
+model WorkoutSplit {
+  id           String  @id @default(cuid())
+  workoutId    String
+  workout      Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  index        Int
+  meters       Float
+  workSeconds  Float
+  restSeconds  Float   @default(0)
+  splitSeconds Float
+  watts        Float
+  spm          Float?
+  hr           Float?
+  lengthMeters Float?
+  forceNewtons Float?
+}
+
+model WorkoutInsight {
+  id        String  @id @default(cuid())
+  workoutId String
+  workout   Workout @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  code      String
+  title     String
+  body      String
+}
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  kind      String
+  inviteCode String  @unique
+  ownerId   String
+  owner     User     @relation("OrgOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  memberships Membership[]
+}
+
+model Membership {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           String       @default("athlete")
+  createdAt      DateTime     @default(now())
+
+  @@unique([organizationId, userId])
+}
+
+model CoachAthleteLink {
+  id        String    @id @default(cuid())
+  coachId   String
+  coach     User      @relation("CoachLinks", fields: [coachId], references: [id], onDelete: Cascade)
+  athleteId String?
+  athlete   User?     @relation("AthleteLinks", fields: [athleteId], references: [id], onDelete: Cascade)
+  token     String    @unique
+  label     String?
+  createdAt DateTime  @default(now())
+  acceptedAt DateTime?
+
+  @@unique([coachId, athleteId])
+}
+
+model TrainingPlan {
+  id          String     @id @default(cuid())
+  coachId     String
+  coach       User       @relation("PlanCoach", fields: [coachId], references: [id], onDelete: Cascade)
+  title       String
+  template    String     @default("high-volume")
+  createdAt   DateTime   @default(now())
+  items       PlanItem[]
+}
+
+model PlanItem {
+  id          String       @id @default(cuid())
+  planId      String
+  plan        TrainingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  athleteId   String?
+  scheduledOn DateTime
+  title       String
+  sport       String       @default("erg")
+  kind        String       @default("time")
+  meters      Float?
+  seconds     Float?
+  intensity   String       @default("moderate")
+  notes       String?
+  workouts    Workout[]
+}

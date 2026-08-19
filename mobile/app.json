@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "ErgCalc",
+    "slug": "ergcalc",
+    "scheme": "ergcalc",
+    "plugins": ["expo-router", "expo-secure-store"],
+    "ios": {
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSBluetoothAlwaysUsageDescription": "ErgCalc connects to your Concept2 PM5 to record the piece you just rowed.",
+        "NSBluetoothPeripheralUsageDescription": "ErgCalc connects to your Concept2 PM5 to record the piece you just rowed."
+      }
+    },
+    "experiments": {
+      "typedRoutes": false
+    },
+    "extra": {
+      "apiUrl": "http://127.0.0.1:3000"
+    }
+  }
+}

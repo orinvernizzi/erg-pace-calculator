@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ergcalc
+      POSTGRES_PASSWORD: ergcalc
+      POSTGRES_DB: ergcalc
+    ports:
+      - "5432:5432"
+    volumes:
+      - ergcalc_pg:/var/lib/postgresql/data
+
+volumes:
+  ergcalc_pg:
